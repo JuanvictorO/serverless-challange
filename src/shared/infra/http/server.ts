@@ -1,3 +1,6 @@
+import 'reflect-metadata';
+import 'dotenv/config';
+
 import express, { NextFunction } from 'express';
 import swaggetUi from 'swagger-ui-express';
 
@@ -10,10 +13,16 @@ import expressBasicAuth from 'express-basic-auth';
 import swaggerFile from '../../../docs/swagger.json';
 import { AppError } from '@shared/errors/AppError';
 import { errors, isCelebrateError } from 'celebrate';
+import routes from './routes';
+import { patchTypeORMRepositoryWithBaseRepository } from 'typeorm-transactional-cls-hooked';
+
+import '@shared/infra/typeorm';
+import '@shared/container';
+
+// Patch Repository with BaseRepository
+patchTypeORMRepositoryWithBaseRepository();
 
 const app = express();
-
-const route = Router();
 
 app.use(cors());
 app.use(express.json());
@@ -55,10 +64,6 @@ if (process.env.APP_MODE !== 'development') {
   );
 }
 
-route.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'hello world with Typescript' });
-});
-
 app.use(errors());
 
 app.use((err: Error, request: Request, response: Response, _next: NextFunction) => {
@@ -77,9 +82,8 @@ app.use((err: Error, request: Request, response: Response, _next: NextFunction) 
   });
 });
 
-app.use(route);
+app.use(routes);
 
 app.listen(3333, () => {
   console.log('Server started on port 3333!');
 });
-
