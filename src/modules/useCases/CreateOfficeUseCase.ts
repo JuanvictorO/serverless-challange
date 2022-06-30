@@ -1,3 +1,4 @@
+import { AppError } from '@shared/errors/AppError';
 import { inject, injectable } from 'tsyringe';
 
 import { Office } from '../infra/typeorm/entities/Office';
@@ -11,6 +12,12 @@ export class CreateOfficeUseCase {
   ) {}
 
   public async execute(name: string): Promise<Office> {
+    const officeAlreadyExists = await this.officeRepository.findByName(name);
+
+    if(officeAlreadyExists) {
+      throw new AppError('Office already exists');
+    }
+
     const office = await this.officeRepository.create(name);
 
     return office;

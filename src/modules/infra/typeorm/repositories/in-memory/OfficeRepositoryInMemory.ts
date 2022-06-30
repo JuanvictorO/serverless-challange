@@ -4,8 +4,9 @@ import { Office } from '../../entities/Office';
 class OfficeRepositoryInMemory implements OfficeRepositoryInterface {
   offices: Office[] = [];
 
-  findOne(id: string): Promise<Office | undefined> {
-    throw new Error('Method not implemented.');
+  async findOne(id: string): Promise<Office | undefined> {
+    const office = this.offices.find(office => office.id === id);
+    return office;
   }
 
   async findAll(): Promise<Office[]> {
@@ -30,8 +31,6 @@ class OfficeRepositoryInMemory implements OfficeRepositoryInterface {
     });
 
     this.offices.push(office);
-
-    console.log('Create Fake: ', office);
 
     return office;
   }

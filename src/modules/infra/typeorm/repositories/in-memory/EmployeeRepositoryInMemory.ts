@@ -2,31 +2,36 @@ import { ICreateEmployeeDTO } from '@modules/dtos/ICreateEmployeeDTO';
 import { IUpdateEmployeeDTO } from '@modules/dtos/IUpdateEmployeeDTO';
 import { EmployeeRepositoryInterface } from '@modules/repositories/EmployeeRepositoryInterface';
 import { Employee } from '../../entities/Employee';
-import { Office } from '../../entities/Office';
 
 class EmployeeRepositoryInMemory implements EmployeeRepositoryInterface {
   employees: Employee[] = [];
 
-  findOne(id: string): Promise<Employee | undefined> {
-    throw new Error('Method not implemented.');
-  }
-  findAll(): Promise<Employee[]> {
-    throw new Error('Method not implemented.');
-  }
-  save(data: IUpdateEmployeeDTO): Promise<Employee> {
-    throw new Error('Method not implemented.');
-  }
-  delete(id: string): Promise<boolean> {
-    throw new Error('Method not implemented.');
+  async findOne(id: string): Promise<Employee | undefined> {
+    const employee = await this.employees.find(employee => employee.id === id);
+    return employee;
   }
 
-  async index(): Promise<Employee[]> {
+  async findAll(): Promise<Employee[]> {
     const all = this.employees;
     return all;
   }
 
-  async show(id: string): Promise<Employee | undefined> {
-    const employee = this.employees.find(employee => employee.id === id);
+  async save({ id, name, birthday, office_id }: IUpdateEmployeeDTO): Promise<Employee> {
+    const employee = new Employee();
+
+    Object.assign(employee, {
+      id,
+      name,
+      birthday,
+      office_id,
+    });
+
+    const employeePosition = await this.employees.findIndex(employee => employee.id === id);
+
+    this.employees[employeePosition].name = employee.name;
+    this.employees[employeePosition].birthday = employee.birthday;
+    this.employees[employeePosition].office_id = employee.office_id;
+
     return employee;
   }
 
@@ -41,6 +46,28 @@ class EmployeeRepositoryInMemory implements EmployeeRepositoryInterface {
 
     this.employees.push(employee);
 
+    return employee;
+  }
+
+  async delete(id: string): Promise<boolean> {
+    const employeeIndex = await this.employees.findIndex(employee => employee.id === id);
+    this.employees.splice(employeeIndex, 1);
+
+    return true;
+  }
+
+  async findByName(name: string): Promise<Employee | undefined> {
+    const employee = await this.employees.find(employee => employee.name === name);
+    return employee;
+  }
+
+  async index(): Promise<Employee[]> {
+    const all = this.employees;
+    return all;
+  }
+
+  async show(id: string): Promise<Employee | undefined> {
+    const employee = this.employees.find(employee => employee.id === id);
     return employee;
   }
 }

@@ -1,4 +1,5 @@
 import { OfficeRepositoryInMemory } from '@modules/infra/typeorm/repositories/in-memory/OfficeRepositoryInMemory';
+import { AppError } from '@shared/errors/AppError';
 import { CreateOfficeUseCase } from '../CreateOfficeUseCase';
 
 let createOfficeUseCase: CreateOfficeUseCase;
@@ -15,11 +16,16 @@ describe('Create office', () => {
 
     await createOfficeUseCase.execute(name);
 
-    console.log(officeRepositoryInMemory.findAll());
-
     const officeCreated = await officeRepositoryInMemory.findByName(name);
 
-    console.log('Officec Criado: ', officeCreated);
     expect(officeCreated).toHaveProperty('id');
+  });
+
+  it('should not be able to create a new office with name exists', async () => {
+    const name = 'Developer I';
+
+    await createOfficeUseCase.execute(name);
+
+    await expect(createOfficeUseCase.execute(name)).rejects.toEqual(new AppError('Office already exists'));
   });
 });

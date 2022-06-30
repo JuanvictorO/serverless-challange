@@ -36,7 +36,7 @@ export class EmployeeRepository implements EmployeeRepositoryInterface {
 
     return employee;
   }
-  
+
   async delete(id: string): Promise<boolean> {
     await this.ormRepository.delete(id);
 

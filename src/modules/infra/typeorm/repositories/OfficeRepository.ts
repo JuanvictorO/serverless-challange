@@ -17,6 +17,12 @@ export class OfficeRepository implements OfficeRepositoryInterface {
     return offices;
   }
 
+  async findByName(name: string): Promise<Office | undefined> {
+    const office = await this.ormRepository.findOne({ name });
+
+    return office;
+  }
+
   async findOne(id: string): Promise<Office | undefined> {
     const office = await this.ormRepository.findOne({ id });
 
