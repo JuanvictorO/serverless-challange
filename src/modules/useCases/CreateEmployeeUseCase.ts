@@ -1,3 +1,4 @@
+import { ICreateEmployeeDTO } from '@modules/dtos/ICreateEmployeeDTO';
 import { OfficeRepositoryInterface } from '@modules/repositories/OfficeRepositoryInterface';
 import { AppError } from '@shared/errors/AppError';
 import { getDate } from '@shared/utils/getDate';
@@ -5,12 +6,6 @@ import { inject, injectable } from 'tsyringe';
 
 import { Employee } from '../infra/typeorm/entities/Employee';
 import { EmployeeRepositoryInterface } from '../repositories/EmployeeRepositoryInterface';
-
-type Request = {
-  name: string;
-  birthday: Date;
-  office_id: string;
-};
 
 @injectable()
 export class CreateEmployeeUseCase {
@@ -22,7 +17,7 @@ export class CreateEmployeeUseCase {
     private officeRepository: OfficeRepositoryInterface,
   ) {}
 
-  public async execute({ name, birthday, office_id }: Request): Promise<Employee> {
+  public async execute({ name, birthday, office_id }: ICreateEmployeeDTO): Promise<Employee> {
     const office = await this.officeRepository.findOne(office_id);
 
     if (!office) {

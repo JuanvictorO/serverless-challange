@@ -6,6 +6,7 @@ import { Employee } from '../infra/typeorm/entities/Employee';
 import { EmployeeRepositoryInterface } from '../repositories/EmployeeRepositoryInterface';
 import { OfficeRepositoryInterface } from '@modules/repositories/OfficeRepositoryInterface';
 import { getDate } from '@shared/utils/getDate';
+import { IUpdateEmployeeDTO } from '@modules/dtos/IUpdateEmployeeDTO';
 
 type Request = {
   id: string;
@@ -24,7 +25,7 @@ export class UpdateEmployeeUseCase {
     private officeRepository: OfficeRepositoryInterface,
   ) {}
 
-  public async execute({ id, name, birthday, office_id }: Request): Promise<Employee> {
+  public async execute({ id, name, birthday, office_id }: IUpdateEmployeeDTO): Promise<Employee> {
     const employee = await this.employeeRepository.findOne(id);
 
     if (!employee) {

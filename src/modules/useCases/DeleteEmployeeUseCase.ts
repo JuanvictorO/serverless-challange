@@ -4,10 +4,6 @@ import { AppError } from '@shared/errors/AppError';
 
 import { EmployeeRepositoryInterface } from '../repositories/EmployeeRepositoryInterface';
 
-type Request = {
-  id: string;
-};
-
 @injectable()
 export class DeleteEmployeeUseCase {
   constructor(
@@ -15,7 +11,7 @@ export class DeleteEmployeeUseCase {
     private employeeRepository: EmployeeRepositoryInterface,
   ) {}
 
-  public async execute({ id }: Request): Promise<void> {
+  public async execute(id: string): Promise<void> {
     const employee = await this.employeeRepository.findOne(id);
 
     if (!employee) {

@@ -5,11 +5,6 @@ import { AppError } from '@shared/errors/AppError';
 import { Employee } from '../infra/typeorm/entities/Employee';
 import { EmployeeRepositoryInterface } from '../repositories/EmployeeRepositoryInterface';
 import { getDate } from '@shared/utils/getDate';
-
-type Request = {
-  id: string;
-};
-
 @injectable()
 export class ShowEmployeeUseCase {
   constructor(
@@ -17,9 +12,8 @@ export class ShowEmployeeUseCase {
     private employeeRepository: EmployeeRepositoryInterface,
   ) {}
 
-  public async execute({ id }: Request): Promise<Employee> {
-    const employee = await this.employeeRepository.findOne({
-      id,
+  public async execute(id: string): Promise<Employee> {
+    const employee = await this.employeeRepository.findOne(id, {
       relations: ['office'],
     });
 

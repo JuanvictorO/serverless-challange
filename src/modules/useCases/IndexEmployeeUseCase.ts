@@ -13,7 +13,7 @@ export class IndexEmployeeUseCase {
 
   public async execute(): Promise<Employee[]> {
     const employee = await this.employeeRepository.findAll({
-      relations: ['office']
+      relations: ['office'],
     });
 
     employee.forEach(obj => {
