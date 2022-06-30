@@ -13,5 +13,194 @@
       "url": "http://localhost:3333",
       "description": "Development server"
     }
-  ]
+  ],
+  "tags": [
+    {
+      "name": "employee",
+      "description": "Everything about employees"
+    },
+    {
+      "name": "office",
+      "description": "Everything about office"
+    }
+  ],
+  "paths": {
+    "/employee": {
+      "get": {
+        "tags": ["employee"],
+        "summary": "Get all employees",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of employees",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Employee"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error of bussiness rules",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": ["employee"],
+        "summary": "Create employee",
+        "requestBody": {
+          "description": "Data to create new employee",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Employee",
+                "properties": {
+                  "id": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Create employee success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error of bussiness rules",
+            "content": {}
+          }
+        }
+      }
+    },
+    "/employee/{id}": {
+      "get": {
+        "tags": ["employee"],
+        "summary": "Show employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the employee",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Get employee info",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error of bussiness rules",
+            "content": {}
+          }
+        }
+      },
+      "put": {
+        "tags": ["employee"],
+        "summary": "Update employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the employee",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "description": "Data to update employee",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Employee"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "Update employee success",
+            "content": {}
+          },
+          "404": {
+            "description": "Error of bussiness rules",
+            "content": {}
+          }
+        }
+      },
+      "delete": {
+        "tags": ["employee"],
+        "summary": "Delete employee",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID of the employee",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Delete employee successful",
+            "content": {}
+          },
+          "404": {
+            "description": "Error of bussiness rules",
+            "content": {}
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Employee": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string"
+          },
+          "office_id": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
 }
