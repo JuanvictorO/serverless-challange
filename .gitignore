@@ -1,0 +1,13 @@
+node_modules/
+.vscode/
+temp/*
+temp/uploads/*
+coverage/
+.docker/dbdata/
+ormconfig.json
+
+.env
+
+dist/
+
+src/modules/debug/
