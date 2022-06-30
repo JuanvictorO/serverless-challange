@@ -58,12 +58,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Employee",
-                "properties": {
-                  "id": {
-                    "type": "string"
-                  }
-                }
+                "$ref": "#/components/schemas/Employee"
               }
             }
           },
@@ -180,6 +175,63 @@
           }
         }
       }
+    },
+    "/employee/office": {
+      "get": {
+        "tags": ["office"],
+        "summary": "Get all offices",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "List of offices",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Office"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error of bussiness rules",
+            "content": {}
+          }
+        }
+      },
+      "post": {
+        "tags": ["office"],
+        "summary": "Create office",
+        "requestBody": {
+          "description": "Data to create new office",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Office"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "201": {
+            "description": "Create employee success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Employee"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Error of bussiness rules",
+            "content": {}
+          }
+        }
+      }
     }
   },
   "components": {
@@ -198,6 +250,18 @@
             "type": "string"
           },
           "office_id": {
+            "type": "string"
+          }
+        }
+      },
+      "Office": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "readOnly": true
+          },
+          "name": {
             "type": "string"
           }
         }
