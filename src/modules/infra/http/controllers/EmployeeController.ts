@@ -12,9 +12,19 @@ export class EmployeeController {
   public async index(request: Request, response: Response): Promise<Response> {
     const indexEmployeeUseCase = container.resolve(IndexEmployeeUseCase);
 
-    const Employee = await indexEmployeeUseCase.execute();
+    const employee = await indexEmployeeUseCase.execute();
 
-    return response.json(instanceToInstance(Employee));
+    return response.json(instanceToInstance(employee));
+  }
+
+  public async show(request: Request, response: Response): Promise<Response> {
+    const { id } = request.params;
+
+    const showEmployeeUseCase = container.resolve(ShowEmployeeUseCase);
+
+    const employee = await showEmployeeUseCase.execute({ id });
+
+    return response.json(instanceToInstance(employee));
   }
 
   public async create(request: Request, response: Response): Promise<Response> {
@@ -22,13 +32,13 @@ export class EmployeeController {
 
     const createEmployeeUseCase = container.resolve(CreateEmployeeUseCase);
 
-    const Employee = await createEmployeeUseCase.execute({
+    const employee = await createEmployeeUseCase.execute({
       name,
       birthday,
       office_id,
     });
 
-    return response.status(201).send(instanceToInstance(Employee));
+    return response.status(201).send(instanceToInstance(employee));
   }
 
   public async update(request: Request, response: Response): Promise<Response> {
@@ -38,14 +48,14 @@ export class EmployeeController {
 
     const updateEmployeeUseCase = container.resolve(UpdateEmployeeUseCase);
 
-    const Employee = await updateEmployeeUseCase.execute({
+    const employee = await updateEmployeeUseCase.execute({
       id,
       name,
       birthday,
       office_id,
     });
 
-    return response.json(instanceToInstance(Employee));
+    return response.json(instanceToInstance(employee));
   }
 
   public async delete(request: Request, response: Response): Promise<Response> {
