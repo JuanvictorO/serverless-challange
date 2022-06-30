@@ -251,6 +251,10 @@
           },
           "office_id": {
             "type": "string"
+          },
+          "age": {
+            "type": "number",
+            "readOnly": true
           }
         }
       },
