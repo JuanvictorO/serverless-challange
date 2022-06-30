@@ -22,7 +22,7 @@ export class EmployeeController {
 
     const showEmployeeUseCase = container.resolve(ShowEmployeeUseCase);
 
-    const employee = await showEmployeeUseCase.execute({ id });
+    const employee = await showEmployeeUseCase.execute(id);
 
     return response.json(instanceToInstance(employee));
   }
@@ -63,7 +63,7 @@ export class EmployeeController {
 
     const deleteEmployeeUseCase = container.resolve(DeleteEmployeeUseCase);
 
-    await deleteEmployeeUseCase.execute({ id });
+    await deleteEmployeeUseCase.execute(id);
 
     return response.status(204).send();
   }

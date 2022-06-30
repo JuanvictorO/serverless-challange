@@ -1,5 +1,7 @@
-import { BaseRepositoryInterface } from '@shared/repositories/BaseRepositoryInterface';
-
 import { Office } from '../infra/typeorm/entities/Office';
 
-export type OfficeRepositoryInterface = BaseRepositoryInterface<Office>;
+export interface OfficeRepositoryInterface {
+  findAll(): Promise<Office[]>;
+  findOne(id: string): Promise<Office | undefined>;
+  create(name: string): Promise<Office>;
+}

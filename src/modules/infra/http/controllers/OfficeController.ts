@@ -19,9 +19,7 @@ export class OfficeController {
 
     const createOfficeUseCase = container.resolve(CreateOfficeUseCase);
 
-    const office = await createOfficeUseCase.execute({
-      name,
-    });
+    const office = await createOfficeUseCase.execute(name);
 
     return response.status(201).send(instanceToInstance(office));
   }
