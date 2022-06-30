@@ -1,34 +1,31 @@
-import express, { NextFunction } from 'express';
+import 'reflect-metadata';
+import 'dotenv/config';
 import swaggetUi from 'swagger-ui-express';
+import {
+  initializeTransactionalContext,
+  patchTypeORMRepositoryWithBaseRepository,
+} from 'typeorm-transactional-cls-hooked';
 
 import * as Sentry from '@sentry/node';
 
-import { Router, Request, Response } from 'express';
-import cors from 'cors';
-import expressBasicAuth from 'express-basic-auth';
+import express, { Request, Response, NextFunction } from 'express';
+import 'express-async-errors';
 
-import swaggerFile from '../../../docs/swagger.json';
+import '@shared/infra/typeorm';
+import '@shared/container';
+
 import { AppError } from '@shared/errors/AppError';
+
 import { errors, isCelebrateError } from 'celebrate';
+import cors from 'cors';
+
+import routes from './routes';
+import swaggerFile from '../../../docs/swagger.json';
+
+// Patch Repository with BaseRepository
+patchTypeORMRepositoryWithBaseRepository();
 
 const app = express();
-
-const route = Router();
-
-app.use(cors());
-app.use(express.json());
-
-app.use(
-  '/docs',
-  expressBasicAuth({
-    users: {
-      storytrackin: 'developer',
-    },
-    challenge: true,
-  }),
-  swaggetUi.serve,
-  swaggetUi.setup(swaggerFile),
-);
 
 // Only production mode
 if (process.env.APP_MODE !== 'development') {
@@ -40,6 +37,13 @@ if (process.env.APP_MODE !== 'development') {
 
   app.use(Sentry.Handlers.requestHandler());
 }
+
+app.use(cors());
+app.use(express.json());
+
+app.use('/docs', swaggetUi.serve, swaggetUi.setup(swaggerFile));
+
+app.use(routes);
 
 // Init error handler if not mode development
 if (process.env.APP_MODE !== 'development') {
@@ -54,10 +58,6 @@ if (process.env.APP_MODE !== 'development') {
     }) as express.ErrorRequestHandler,
   );
 }
-
-route.get('/', (req: Request, res: Response) => {
-  res.json({ message: 'hello world with Typescript' });
-});
 
 app.use(errors());
 
@@ -77,9 +77,6 @@ app.use((err: Error, request: Request, response: Response, _next: NextFunction) 
   });
 });
 
-app.use(route);
-
 app.listen(3333, () => {
   console.log('Server started on port 3333!');
 });
-
