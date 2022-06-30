@@ -4,6 +4,7 @@ import { AppError } from '@shared/errors/AppError';
 
 import { Employee } from '../infra/typeorm/entities/Employee';
 import { EmployeeRepositoryInterface } from '../repositories/EmployeeRepositoryInterface';
+import { OfficeRepositoryInterface } from '@modules/repositories/OfficeRepositoryInterface';
 
 type Request = {
   id: string;
@@ -17,6 +18,9 @@ export class UpdateEmployeeUseCase {
   constructor(
     @inject('EmployeeRepository')
     private employeeRepository: EmployeeRepositoryInterface,
+
+    @inject('OfficeRepository')
+    private officeRepository: OfficeRepositoryInterface,
   ) {}
 
   public async execute({ id, name, birthday, office_id }: Request): Promise<Employee> {
@@ -24,6 +28,12 @@ export class UpdateEmployeeUseCase {
 
     if (!employee) {
       throw new AppError('Employee not found');
+    }
+
+    const office = await this.officeRepository.findOne(office_id);
+
+    if (!office) {
+      throw new AppError('Office not found');
     }
 
     employee.name = name;
