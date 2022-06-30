@@ -1,3 +1,4 @@
+import { integer } from 'aws-sdk/clients/cloudfront';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Office } from './Office';
 
@@ -11,6 +12,8 @@ export class Employee {
 
   @Column()
   birthday: Date;
+
+  age: number;
 
   @Column()
   office_id: string;

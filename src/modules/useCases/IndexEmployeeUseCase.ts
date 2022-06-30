@@ -1,3 +1,4 @@
+import { getDate } from '@shared/utils/getDate';
 import { inject, injectable } from 'tsyringe';
 
 import { Employee } from '../infra/typeorm/entities/Employee';
@@ -11,7 +12,14 @@ export class IndexEmployeeUseCase {
   ) {}
 
   public async execute(): Promise<Employee[]> {
-    const employee = await this.employeeRepository.findAll();
+    const employee = await this.employeeRepository.findAll({
+      relations: ['office']
+    });
+
+    employee.forEach(obj => {
+      const age = getDate(obj.birthday);
+      obj.age = age;
+    });
 
     return employee;
   }

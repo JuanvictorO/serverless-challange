@@ -1,5 +1,6 @@
 import { OfficeRepositoryInterface } from '@modules/repositories/OfficeRepositoryInterface';
 import { AppError } from '@shared/errors/AppError';
+import { getDate } from '@shared/utils/getDate';
 import { inject, injectable } from 'tsyringe';
 
 import { Employee } from '../infra/typeorm/entities/Employee';
@@ -28,12 +29,15 @@ export class CreateEmployeeUseCase {
       throw new AppError('Office not found');
     }
 
-    const config = await this.employeeRepository.create({
+    const employee = await this.employeeRepository.create({
       name,
       birthday,
       office_id,
     });
 
-    return config;
+    const age = getDate(employee.birthday);
+    employee.age = age;
+
+    return employee;
   }
 }

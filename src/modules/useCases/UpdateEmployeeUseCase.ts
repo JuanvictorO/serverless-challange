@@ -5,6 +5,7 @@ import { AppError } from '@shared/errors/AppError';
 import { Employee } from '../infra/typeorm/entities/Employee';
 import { EmployeeRepositoryInterface } from '../repositories/EmployeeRepositoryInterface';
 import { OfficeRepositoryInterface } from '@modules/repositories/OfficeRepositoryInterface';
+import { getDate } from '@shared/utils/getDate';
 
 type Request = {
   id: string;
@@ -41,6 +42,9 @@ export class UpdateEmployeeUseCase {
     employee.office_id = office_id;
 
     await this.employeeRepository.save(employee);
+
+    const age = getDate(employee.birthday);
+    employee.age = age;
 
     return employee;
   }

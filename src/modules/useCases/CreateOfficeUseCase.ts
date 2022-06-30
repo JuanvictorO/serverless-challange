@@ -15,10 +15,10 @@ export class CreateOfficeUseCase {
   ) {}
 
   public async execute({ name }: Request): Promise<Office> {
-    const config = await this.officeRepository.create({
+    const office = await this.officeRepository.create({
       name,
     });
 
-    return config;
+    return office;
   }
 }
