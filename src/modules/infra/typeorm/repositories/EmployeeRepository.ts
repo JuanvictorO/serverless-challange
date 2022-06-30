@@ -13,18 +13,30 @@ export class EmployeeRepository implements EmployeeRepositoryInterface {
     this.ormRepository = getRepository(Employee);
   }
 
-  findAll(): Promise<Employee[]> {
-    return this.ormRepository.find();
+  async findAll(): Promise<Employee[]> {
+    const employees = await this.ormRepository.find();
+
+    return employees;
   }
-  findOne(id: string, options?: FindOneOptions | undefined): Promise<Employee | undefined> {
-    return this.ormRepository.findOne(id, options);
+
+  async findOne(id: string, options?: FindOneOptions | undefined): Promise<Employee | undefined> {
+    const employee = await this.ormRepository.findOne(id, options);
+
+    return employee;
   }
-  create(data: ICreateEmployeeDTO): Promise<Employee> {
-    return this.ormRepository.save(data);
+
+  async create(data: ICreateEmployeeDTO): Promise<Employee> {
+    const employee = await this.ormRepository.save(data);
+
+    return employee;
   }
+
   async save(data: IUpdateEmployeeDTO): Promise<Employee> {
-    return this.ormRepository.save(data);
+    const employee = await this.ormRepository.save(data);
+
+    return employee;
   }
+  
   async delete(id: string): Promise<boolean> {
     await this.ormRepository.delete(id);
 

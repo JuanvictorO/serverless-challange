@@ -11,14 +11,21 @@ export class OfficeRepository implements OfficeRepositoryInterface {
     this.ormRepository = getRepository(Office);
   }
 
-  findAll(): Promise<Office[]> {
-    return this.ormRepository.find();
+  async findAll(): Promise<Office[]> {
+    const offices = await this.ormRepository.find();
+
+    return offices;
   }
 
-  findOne(id: string): Promise<Office | undefined> {
-    return this.ormRepository.findOne({ id });
+  async findOne(id: string): Promise<Office | undefined> {
+    const office = await this.ormRepository.findOne({ id });
+
+    return office;
   }
-  create(name: string): Promise<Office> {
-    return this.ormRepository.save({ name });
+
+  async create(name: string): Promise<Office> {
+    const office = await this.ormRepository.save({ name });
+
+    return office;
   }
 }

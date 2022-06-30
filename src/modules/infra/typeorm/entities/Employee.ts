@@ -1,4 +1,4 @@
-import { integer } from 'aws-sdk/clients/cloudfront';
+import { v4 as uuidV4 } from 'uuid';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { Office } from './Office';
 
@@ -21,4 +21,10 @@ export class Employee {
   @ManyToOne(() => Office)
   @JoinColumn({ name: 'office_id' })
   office: Office;
+
+  constructor() {
+    if (!this.id) {
+      this.id = uuidV4();
+    }
+  }
 }

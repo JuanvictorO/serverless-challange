@@ -11,14 +11,15 @@ describe('Create office', () => {
   });
 
   it('should be able to create a new office', async () => {
-    const office = {
-      name: 'Developer',
-    };
+    const name = 'Developer I';
 
-    //await createOfficeUseCase.execute(name: office.name);
+    await createOfficeUseCase.execute(name);
 
-    const officeCreated = await officeRepositoryInMemory.findByName(office.name);
+    console.log(officeRepositoryInMemory.findAll());
 
+    const officeCreated = await officeRepositoryInMemory.findByName(name);
+
+    console.log('Officec Criado: ', officeCreated);
     expect(officeCreated).toHaveProperty('id');
   });
 });
