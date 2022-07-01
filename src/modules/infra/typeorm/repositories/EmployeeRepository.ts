@@ -15,7 +15,7 @@ export class EmployeeRepository implements EmployeeRepositoryInterface {
 
   async findAll(name?: string, office?: string): Promise<Employee[] | Employee> {
     let where;
-
+    
     if (name && office) {
       where = {
         name: Like(`%${name}%`),

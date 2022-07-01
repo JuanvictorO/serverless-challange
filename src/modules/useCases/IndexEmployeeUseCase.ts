@@ -13,7 +13,7 @@ export class IndexEmployeeUseCase {
   ) {}
 
   public async execute({ name, office }: IIndexEmployeeDTO): Promise<Employee[] | Employee> {
-    const employee = await this.employeeRepository.findAll(name);
+    const employee = await this.employeeRepository.findAll(name, office);
 
     if (employee instanceof Array) {
       employee.forEach(obj => {
