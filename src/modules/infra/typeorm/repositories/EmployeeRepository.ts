@@ -15,7 +15,7 @@ export class EmployeeRepository implements EmployeeRepositoryInterface {
 
   async findAll(name?: string, office?: string): Promise<Employee[] | Employee> {
     let where;
-    
+
     if (name && office) {
       where = {
         name: Like(`%${name}%`),
@@ -51,35 +51,6 @@ export class EmployeeRepository implements EmployeeRepositoryInterface {
     const employee = await this.ormRepository.findOne(id, options);
 
     return employee;
-  }
-
-  async findWithFilter(name?: string, office?: string): Promise<Employee[] | Employee | undefined> {
-    let where;
-    if (name && office) {
-      where = {
-        name: Like(`%${name}%`),
-        office: {
-          name: Like(`%${office}%`),
-        },
-      };
-    } else if (name) {
-      where = {
-        name: Like(`%${name}%`),
-      };
-    } else {
-      where = {
-        office: {
-          name: Like(`%${office}%`),
-        },
-      };
-    }
-
-    const findEmployees = await this.ormRepository.find({
-      relations: ['office'],
-      where: where,
-    });
-
-    return findEmployees;
   }
 
   async create(data: ICreateEmployeeDTO): Promise<Employee> {
