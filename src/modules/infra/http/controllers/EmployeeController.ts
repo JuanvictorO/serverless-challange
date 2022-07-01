@@ -7,12 +7,18 @@ import { ShowEmployeeUseCase } from '@modules/useCases/ShowEmployeeUseCase';
 import { UpdateEmployeeUseCase } from '@modules/useCases/UpdateEmployeeUseCase';
 import { CreateEmployeeUseCase } from '@modules/useCases/CreateEmployeeUseCase';
 import { DeleteEmployeeUseCase } from '@modules/useCases/DeleteEmployeeUseCase';
+import { toString } from '@shared/utils/convert';
 
 export class EmployeeController {
   public async index(request: Request, response: Response): Promise<Response> {
+    const { name, office } = request.query;
+
     const indexEmployeeUseCase = container.resolve(IndexEmployeeUseCase);
 
-    const employee = await indexEmployeeUseCase.execute();
+    const employee = await indexEmployeeUseCase.execute({
+      name: toString(name),
+      office: toString(office),
+    });
 
     return response.json(instanceToInstance(employee));
   }

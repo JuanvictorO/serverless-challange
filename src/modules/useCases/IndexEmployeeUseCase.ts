@@ -1,3 +1,4 @@
+import { IIndexEmployeeDTO } from '@modules/dtos/IIndexEmployeeDTO';
 import { getDate } from '@shared/utils/getDate';
 import { inject, injectable } from 'tsyringe';
 
@@ -11,15 +12,17 @@ export class IndexEmployeeUseCase {
     private employeeRepository: EmployeeRepositoryInterface,
   ) {}
 
-  public async execute(): Promise<Employee[]> {
-    const employee = await this.employeeRepository.findAll({
-      relations: ['office'],
-    });
+  public async execute({ name, office }: IIndexEmployeeDTO): Promise<Employee[] | Employee> {
+    const employee = await this.employeeRepository.findAll(name);
 
-    employee.forEach(obj => {
-      const age = getDate(obj.birthday);
-      obj.age = age;
-    });
+    if (employee instanceof Array) {
+      employee.forEach(obj => {
+        const age = getDate(obj.birthday);
+        obj.age = age;
+      });
+    } else {
+      employee.age = getDate(employee.birthday);
+    }
 
     return employee;
   }
