@@ -37,7 +37,7 @@ describe('Create employee', () => {
     expect(employeeCreated).toHaveProperty('id');
   });
 
-  it('should not be able to create a new office with invalid office_id', async () => {
+  it('should not be able to create a new employee with invalid office_id', async () => {
     const employee = {
       name: 'Alex Jorge',
       birthday: new Date('2000-06-06'),
