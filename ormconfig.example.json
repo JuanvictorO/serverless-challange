@@ -2,10 +2,10 @@
   {
     "name": "default",
     "type": "mysql",
-    "host": "localhost",
+    "host": "serverless-challenge-stefanini.cphnse4kuqql.us-east-1.rds.amazonaws.com",
     "port": 3306,
-    "username": "root",
-    "password": "root",
+    "username": "admin",
+    "password": "server4953",
     "database": "serverless_challenge",
     "migrationsTableName": "migration",
     "insecureAuth": true,

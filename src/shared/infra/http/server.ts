@@ -22,9 +22,6 @@ import cors from 'cors';
 import routes from './routes';
 import swaggerFile from '../../../docs/swagger.json';
 
-// Patch Repository with BaseRepository
-patchTypeORMRepositoryWithBaseRepository();
-
 const app = express();
 
 // Only production mode

@@ -6,7 +6,7 @@ import { Employee } from '../infra/typeorm/entities/Employee';
 
 export interface EmployeeRepositoryInterface {
   findOne(id?: string, options?: FindOneOptions | undefined): Promise<Employee | undefined>;
-  findAll(options?: FindOneOptions | undefined): Promise<Employee[]>;
+  findAll(name?: string, office?: string): Promise<Employee[] | Employee>;
   create(data: ICreateEmployeeDTO): Promise<Employee>;
   save(data: IUpdateEmployeeDTO): Promise<Employee>;
   delete(id: string): Promise<boolean>;

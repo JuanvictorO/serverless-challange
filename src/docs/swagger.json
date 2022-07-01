@@ -29,7 +29,24 @@
       "get": {
         "tags": ["employee"],
         "summary": "Get all employees",
-        "parameters": [],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "description": "Name of the employee",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "office",
+            "in": "query",
+            "description": "Name of the office",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "List of employees",
@@ -58,7 +75,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Employee"
+                "$ref": "#/components/schemas/Employee-body"
               }
             }
           },
@@ -133,7 +150,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/Employee"
+                "$ref": "#/components/schemas/Employee-body"
               }
             }
           },
@@ -252,6 +269,10 @@
           "office_id": {
             "type": "string"
           },
+          "office": {
+            "type": "object",
+            "$ref": "#/components/schemas/Office"
+          },
           "age": {
             "type": "number",
             "readOnly": true
@@ -266,6 +287,20 @@
             "readOnly": true
           },
           "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Employee-body": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "birthday": {
+            "type": "string"
+          },
+          "office_id": {
             "type": "string"
           }
         }
